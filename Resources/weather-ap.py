@@ -54,6 +54,7 @@ def precipitation():
 
     session.close()
 
+    #put return into list
     precipitation_dict = []
     for date, prcp in precip_data:
         prcp_dict = {}
@@ -110,10 +111,12 @@ def range(start):
     
     session = Session(engine)
     
+    #query for dates between the start and end dates, which are entered in the URL
     lowest = session.query(func.min(Measurement.tobs)).filter(Measurement.date >= start).first()
     average = session.query(func.avg(Measurement.tobs)).filter(Measurement.date >= start).first()
     maximum = session.query(func.max(Measurement.tobs)).filter(Measurement.date >= start).first()
 
+    #put items into list
     tobs_returns = [lowest, average, maximum]
     return jsonify(tobs_returns)
     
@@ -122,11 +125,12 @@ def range(start):
 def ranges(start, end):
     
     session = Session(engine)
-    
+    #query for dates between the start and end dates, which are entered in the URL
     lowest = session.query(func.min(Measurement.tobs)).filter(Measurement.date.between(start, end)).first()
     average = session.query(func.avg(Measurement.tobs)).filter(Measurement.date.between(start, end)).first()
     maximum = session.query(func.max(Measurement.tobs)).filter(Measurement.date.between(start, end)).first()
 
+    #put items into list
     tobs_returns = [lowest, average, maximum]
     return jsonify(tobs_returns)
 
